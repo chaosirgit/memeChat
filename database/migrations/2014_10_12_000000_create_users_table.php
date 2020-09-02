@@ -17,9 +17,10 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('username')->unique()->default('');
             $table->string('password')->default('');
+            $table->tinyInteger('gender')->default(0);
             $table->string('session_key')->default('');
             $table->string('nickname')->default('');
-            $table->string('avatar')->default('');
+            $table->longText('avatar');
             $table->bigInteger('parent_id')->index()->default(0);
             $table->timestamps();
         });

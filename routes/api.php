@@ -16,13 +16,15 @@ use Illuminate\Http\Request;
 //用户端
 Route::prefix('v1')->group(function (){
     //无需授权的api
-    Route::post('/login','User\UserController@login'); //验证是否绑定
+    Route::post('/login','Api\UserController@login'); //验证是否绑定
 
     //需要授权的api
     Route::middleware('auth:api')->group(function (){
-        Route::get('/user','User\UserController@user'); //获取个人信息
-        Route::post('/user','User\UserController@bindUserInfo'); //绑定个人信息
-        Route::post('/user/bindPhone','User\UserController@bindUserPhone'); //绑定手机号
+        Route::get('/user','Api\UserController@user'); //获取个人信息
+        Route::get('/index','Api\UserController@user'); //获取个人信息
+        Route::post('/upload','Api\IndexController@upload'); //上传图片base64
+        Route::post('/user','Api\UserController@bindUserInfo'); //绑定个人信息
+        Route::post('/user/bindPhone','Api\UserController@bindUserPhone'); //绑定手机号
     });
 
 });

@@ -12,8 +12,9 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/passport": "^9.3",
+        "laravel/tinker": "^2.0",
         "overtrue/laravel-wechat": "^5.0",
-        "laravel/tinker": "^2.0"
+        "workerman/gateway-worker": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

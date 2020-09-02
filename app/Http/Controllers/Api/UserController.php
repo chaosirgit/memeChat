@@ -3,43 +3,40 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Traits\Api\UserTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    use UserTrait;
 
     public function login(Request $request){
-        $code = $request->get('code',''); //code
-        if (empty($code)){
+        $username = $request->get('username','');
+        $password = $request->get('password','');
+        $gender = $request->get('gender',1);
+        if (empty($username) || empty($password)){
             return $this->error('请填写完整');
-        }
-        $session = $this->app()->auth->session($code);
-        //array:2 [
-        //  "session_key" => "QlyTIaYIHEM7MfN98OBQWA=="
-        //  "openid" => "o5TiR4jonhjes2Jcs6PfG3_WTCMk"
-        //]
-        if (empty($session['openid']) || empty($session['session_key'])){
-            return $this->error('微信服务器连接失败');
         }
 
         try{
-            $has = User::where('openid',$session['openid'])->first();
+            DB::beginTransaction();
+            $has = User::query()->lockForUpdate()->where('username',$username)->first();
             if (empty($has)){
                 $user = new User();
-                $user->openid = $session['openid'];
-                $user->session_key = $session['session_key'];
+                $user->username = $username;
+                $user->password = Hash::make($password);
+                $user->gender = $gender;
                 $user->save();
-                $token = $user->createToken('Deliverer',['*'])->accessToken;
+                $token = $user->createToken('User',['*'])->accessToken;
             }else{
-                $has->session_key = $session['session_key'];
-                $has->save();
-                $token = $has->createToken('Deliverer',['*'])->accessToken;
+                if (!Hash::check($password,$has->password)){
+                    DB::rollBack();
+                    return $this->error('密码错误');
+                }
+                $token = $has->createToken('User',['*'])->accessToken;
             }
-
+            DB::commit();
             return $this->success([
                 'token_type' => 'Bearer',
                 'access_token' => $token,

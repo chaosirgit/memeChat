@@ -12,19 +12,8 @@ class User extends Authenticatable
     use Notifiable,HasApiTokens;
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','parent_id','session_key',
     ];
-
-    protected $appends = ['total_ticket_count'];
-
-
-    public function getTotalTicketCountAttribute(){
-        return $this->userTickets()->sum('count');
-    }
-
-    public function userTickets(){
-        return $this->hasMany('App\UserTicket','user_id','id');
-    }
 
 
 

@@ -29,14 +29,14 @@ class RevokeOldTokens
     {
         //如需登录踢下线-请开启注释
 
-//        if ($event->clientId == config('auth.clients.user')){
-//            Token::where('id', '!=', $event->tokenId)
-//                ->where('user_id', $event->userId)
-//                ->where('client_id', $event->clientId)
-////            ->where('expires_at', '<', now())
-////            ->orWhere('revoked', true)
-//                ->delete();
-//        }
+        if ($event->clientId == config('auth.clients.user')){
+            Token::query()->where('id', '!=', $event->tokenId)
+                ->where('user_id', $event->userId)
+                ->where('client_id', $event->clientId)
+//            ->where('expires_at', '<', now())
+//            ->orWhere('revoked', true)
+                ->delete();
+        }
 //        if ($event->clientId == config('auth.clients.admin')){
 //            AdminToken::where('id', '!=', $event->tokenId)
 //                ->where('user_id', $event->userId)
