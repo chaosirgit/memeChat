@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use GatewayWorker\Lib\Gateway;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,5 +25,16 @@ class IndexController extends Controller
             DB::rollBack();
             return $this->error($exception->getMessage());
         }
+    }
+
+    public function isConnect() {
+        $user = auth()->user();
+        $client_id = Gateway::getClientIdByUid($user->id);
+        if (empty($client_id)){
+            return $this->success(['is_online'=>false]);
+        }else{
+            return $this->success(['is_online'=>true]);
+        }
+
     }
 }
