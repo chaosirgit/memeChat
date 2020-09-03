@@ -43,11 +43,13 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\UserPassport::class,
+            \App\Http\Middleware\EnableCrossRequestMiddleware::class,
         ],
         'admin' => [
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AdminPassport::class,
+            \App\Http\Middleware\EnableCrossRequestMiddleware::class,
         ]
     ];
 
