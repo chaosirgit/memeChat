@@ -61,5 +61,5 @@ return [
         //Gateway进程和BusinessWorker进程启动后分别向Register进程注册自己的通讯地址，Gateway进程和BusinessWorker通过Register进程得到通讯地址后，就可以建立起连接并通讯了。
         'address' => env('GATEWAY_START_ADDRESS', 'text://0.0.0.0:2020'),
     ],
-    'code_register' => env('GATEWAY_CODE_REGISTER','') ?? env('GATEWAY_REGISTER_ADDRESS','127.0.0.1:2020'),
+    'code_register' => env('GATEWAY_CODE_REGISTER','127.0.0.1:2020'),
 ];
