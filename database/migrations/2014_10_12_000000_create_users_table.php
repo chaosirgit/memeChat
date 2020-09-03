@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('gender')->default(0);
             $table->string('session_key')->default('');
             $table->string('nickname')->default('');
-            $table->longText('avatar');
+            $table->longText('avatar')->nullable();
             $table->bigInteger('parent_id')->index()->default(0);
             $table->timestamps();
         });

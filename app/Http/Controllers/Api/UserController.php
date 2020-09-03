@@ -43,6 +43,7 @@ class UserController extends Controller
             ]);
 
         }catch (\Exception $exception){
+            DB::rollBack();
             return $this->error($exception->getMessage());
         }
     }

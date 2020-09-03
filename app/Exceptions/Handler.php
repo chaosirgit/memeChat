@@ -19,7 +19,6 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         //
-        'League\OAuth2\Server\Exception\OAuthServerException',
     ];
 
     /**
