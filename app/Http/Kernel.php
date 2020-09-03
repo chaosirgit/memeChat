@@ -15,12 +15,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \App\Http\Middleware\EnableCrossRequestMiddleware::class,
         \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\EnableCrossRequestMiddleware::class,
     ];
 
     /**
@@ -43,13 +43,11 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\UserPassport::class,
-            \App\Http\Middleware\EnableCrossRequestMiddleware::class,
         ],
         'admin' => [
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AdminPassport::class,
-            \App\Http\Middleware\EnableCrossRequestMiddleware::class,
         ]
     ];
 
