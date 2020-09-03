@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
                 //判断如果是鉴权错误
             }elseif($exception instanceof AuthenticationException){
                 //$this->error 是自己封装的一个 Trait 返回 json 数据，您也可以自己封装，这里不再展示
-                dd($exception);
+                return $this->error($exception->getMessage());
                 return $this->error('授权失败',[],401);
             }
         }
