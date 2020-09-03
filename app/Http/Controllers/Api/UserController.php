@@ -99,4 +99,15 @@ class UserController extends Controller
             return $this->error($exception->getMessage());
         }
     }
+
+    public function logout() {
+        $user = auth()->user();
+        try{
+            $user->token()->delete();
+            return $this->success();
+        }catch (\Exception $exception){
+            return $this->error('Exception Error');
+        }
+    }
+
 }
