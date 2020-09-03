@@ -23,7 +23,7 @@ class EnableCrossRequestMiddleware
 //        $response->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, OPTIONS, DELETE');
 //        $response->header('Access-Control-Allow-Credentials', 'true');
         $response->headers->add([
-            'Access-Control-Allow-Origin'=> $origin,
+//            'Access-Control-Allow-Origin'=> $origin,
             'Access-Control-Allow-Methods'=>'GET, POST, PATCH, PUT, OPTIONS, DELETE',
             'Access-Control-Allow-Headers'=>'Origin, Content-Type, Cookie, X-CSRF-TOKEN, Accept, Authorization, X-XSRF-TOKEN',
             'Access-Control-Expose-Headers' => 'Authorization, authenticated',
