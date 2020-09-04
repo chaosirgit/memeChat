@@ -58,7 +58,8 @@ class IndexController extends Controller
                 }
             }
             Gateway::bindUid($client_id,$user->id);
-            return $this->success();
+            $count = Gateway::getAllClientCount();
+            return $this->success(['online_count'=>$count]);
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage());
         }
