@@ -57,6 +57,7 @@ class IndexController extends Controller
                     Gateway::closeClient($client);
                 }
             }
+            Gateway::bindUid($client_id,$user->id);
             return $this->success();
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage());
