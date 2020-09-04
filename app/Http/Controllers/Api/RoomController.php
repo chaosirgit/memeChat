@@ -49,7 +49,7 @@ class RoomController extends Controller
             $data['msg'] = $user->username.' 进入房间了';
             $data['type'] = 'message';
             $message = json_encode($data,true);
-            Gateway::sendToGroup($room_user->room_id,$message);
+            Gateway::sendToGroup($room->id,$message);
             return $this->success();
 
         }catch (\Exception $exception){
