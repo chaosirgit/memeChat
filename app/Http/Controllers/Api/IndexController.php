@@ -32,7 +32,6 @@ class IndexController extends Controller
     {
         $user                     = auth()->user();
         Gateway::$registerAddress = config('gateway.code_register');
-//        Gateway::$registerAddress = '192.168.96.5:2031';
         $client_id = Gateway::getClientIdByUid($user->id);
         $count = Gateway::getAllClientCount();
         if (empty($client_id)) {
@@ -58,9 +57,7 @@ class IndexController extends Controller
                     Gateway::closeClient($client);
                 }
             }
-            if (Gateway::bindUid($client_id, $user->id) != false){
-                return $this->success();
-            }
+            return $this->success();
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage());
         }
