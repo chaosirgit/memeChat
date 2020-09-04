@@ -43,6 +43,13 @@ class RoomController extends Controller
             Gateway::$registerAddress = config('gateway.code_register');
             $client_id = Gateway::getClientIdByUid($user->id);
             Gateway::joinGroup(current($client_id),$room->id);
+            $data = array();
+            $data['user'] = $user;
+            $data['is_self'] = 2;
+            $data['msg'] = $user->username.' 进入房间了';
+            $data['type'] = 'message';
+            $message = json_encode($data,true);
+            Gateway::sendToGroup($room_user->room_id,$message);
             return $this->success();
 
         }catch (\Exception $exception){
@@ -64,16 +71,57 @@ class RoomController extends Controller
         try{
             DB::beginTransaction();
             $room_user = RoomUser::query()->where('user_id',$user->id)->lockForUpdate()->first();
+            $room_id = $room_user->room_id;
             if (!empty($room_user)){
                 $room_user->delete();
                 Gateway::$registerAddress = config('gateway.code_register');
                 $client_id = Gateway::getClientIdByUid($user->id);
-                Gateway::leaveGroup(current($client_id),$room_user->id);
+                Gateway::leaveGroup(current($client_id),$room_id);
             }
             DB::commit();
+            $data = array();
+            $data['user'] = $user;
+            $data['is_self'] = 2;
+            $data['msg'] = $user->username.' 离开房间了';
+            $data['type'] = 'message';
+            $message = json_encode($data,true);
+            Gateway::sendToGroup($room_id,$message);
             return $this->success();
         }catch (\Exception $exception){
             DB::rollBack();
+            return $this->error($exception->getMessage());
+        }
+    }
+
+    public function sendMsg(Request $request){
+        $msg = $request->get('msg','');
+        if (empty($msg)){
+            return $this->error('不能发送空消息');
+        }
+        $user = auth()->user();
+        try{
+            Gateway::$registerAddress = config('gateway.code_register');
+
+            $room_user = RoomUser::query()->where('user_id',$user->id)->first();
+            if (empty($room_user)){
+                return $this->error('您还未进入房间,请重新进入');
+            }
+            $group_uid = Gateway::getUidListByGroup($room_user->room_id);
+            foreach ($group_uid as $uid){
+                $data = array();
+                $data['user'] = $user;
+                if ($uid == $user->id){
+                    $data['is_self'] = 1;
+                }else{
+                    $data['is_self'] = 0;
+                }
+                $data['msg'] = $msg;
+                $data['type'] = 'message';
+                $message = json_encode($data,true);
+                Gateway::sendToUid($uid,$message);
+            }
+            return $this->success();
+        }catch (\Exception $exception){
             return $this->error($exception->getMessage());
         }
     }

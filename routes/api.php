@@ -33,6 +33,8 @@ Route::prefix('v1')->group(function (){
         Route::get('/roomInfo','Api\RoomController@roomInfo'); //房间信息
         Route::post('/outRoom','Api\RoomController@outRoom'); //退出房间
 
+        Route::post('/sendMsg','Api\RoomController@sendMsg'); //发送消息
+
     });
 
 });
