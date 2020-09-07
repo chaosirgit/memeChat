@@ -48,6 +48,7 @@ class RoomController extends Controller
             $data['is_self'] = 2;
             $data['msg'] = $user->username.' 进入房间了';
             $data['type'] = 'message';
+            $data['group_count'] = Gateway::getClientCountByGroup($room->id);
             $message = json_encode($data,true);
             Gateway::sendToGroup($room->id,$message);
             return $this->success();
@@ -84,6 +85,7 @@ class RoomController extends Controller
             $data['is_self'] = 2;
             $data['msg'] = $user->username.' 离开房间了';
             $data['type'] = 'message';
+            $data['group_count'] = Gateway::getClientCountByGroup($room_id);
             $message = json_encode($data,true);
             Gateway::sendToGroup($room_id,$message);
             return $this->success();
@@ -117,6 +119,7 @@ class RoomController extends Controller
                 }
                 $data['msg'] = $msg;
                 $data['type'] = 'message';
+                $data['group_count'] = Gateway::getClientCountByGroup($room_user->room_id);
                 $message = json_encode($data,true);
                 Gateway::sendToUid($uid,$message);
             }
