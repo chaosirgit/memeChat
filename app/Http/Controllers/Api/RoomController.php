@@ -95,7 +95,7 @@ class RoomController extends Controller
 
     public function sendMsg(Request $request){
         $msg = $request->get('msg','');
-        if (empty($msg)){
+        if (is_null($msg)){
             return $this->error('不能发送空消息');
         }
         $user = auth()->user();
