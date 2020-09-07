@@ -16,5 +16,17 @@ class User extends Authenticatable
     ];
 
 
+    public function getAvatarAttribute() {
+        if (empty($this->attributes['avatar'])){
+            if ($this->gender == 0){
+                return url('/female.jpg');
+            }else{
+                return url('/male.jpg');
+            }
+        }
+        return $this->attributes['avatar'];
+    }
+
+
 
 }
