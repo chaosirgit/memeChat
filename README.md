@@ -1,1 +1,1 @@
-## [Meme Chat](https://www.memestech.com.cn)
+## [Meme Chat](https://memechat.memestech.com.cn/)
